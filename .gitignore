@@ -1,2 +1,5 @@
 documents/sample.pdf
 .env
+*.csv
+venv/.env
+documents/sample.pdf
