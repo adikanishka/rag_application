@@ -1,5 +1,27 @@
-documents/sample.pdf
+# Ignore environment variables
 .env
-*.csv
-venv/.env
+venv/.env  # Only needed if you use nested envs
+
+# Ignore virtual environments
+venv/
+
+# Ignore large or specific files
 documents/sample.pdf
+
+# Ignore all CSV data files
+*.csv
+
+# Bytecode and cache
+__pycache__/
+*.py[cod]
+
+# Logs and temp files
+*.log
+*.tmp
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
