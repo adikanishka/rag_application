@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ask a Question</title>
+</head>
+<body>
+  <h1>Ask a Question</h1>
+  <form id="questionForm">
+    <input type="text" name="question" id="question" placeholder="Enter question" required />
+    <button type="submit">Ask</button>
+  </form>
+  <h2>Answer:</h2>
+  <div id="answer">No answer received.</div>
+
+  <script>
+    document.getElementById('questionForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const question = document.getElementById('question').value;
+      const formData = new FormData();
+      formData.append('question', question);
+    
+      try {
+        const response = await fetch('/ask', {
+          method: 'POST',
+          body: formData
+        });
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status}`);
+        }
+        const data = await response.json();
+        document.getElementById('answer').innerText = data.answer || 'No answer received.';
+      } catch (error) {
+        document.getElementById('answer').innerText = `Error: ${error.message}`;
+      }
+    });
+    </script>
+    
+</body>
+</html>
+
