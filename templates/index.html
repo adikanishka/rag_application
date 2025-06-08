@@ -1,40 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ask a Question</title>
+  <title>Ask a Question </title>
+  <link rel="stylesheet" href="/static/style.css"  />
 </head>
 <body>
-  <h1>Ask a Question</h1>
-  <form id="questionForm">
+  <h1>Ask a Question Related to AI  OR  upload any document</h1>
+  <form id="questionForm" enctype="multipart/form-data">
     <input type="text" name="question" id="question" placeholder="Enter question" required />
+  
+    <label>
+      <input type="checkbox" name="use_custom" id="use_custom" />
+      Use uploaded PDF
+    </label>
+  
+    <input type="file" name="file" id="file" accept="application/pdf" />
+  
     <button type="submit">Ask</button>
   </form>
+  
+
   <h2>Answer:</h2>
   <div id="answer">No answer received.</div>
 
   <script>
     document.getElementById('questionForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+    
       const question = document.getElementById('question').value;
+      const useCustom = document.getElementById('use_custom').checked;
+      const fileInput = document.getElementById('file');
+    
       const formData = new FormData();
       formData.append('question', question);
+      formData.append('use_custom', useCustom.toString());  // "true" or "false"
+    
+      if (useCustom && fileInput.files.length > 0) {
+        formData.append('file', fileInput.files[0]);
+      }
     
       try {
         const response = await fetch('/ask', {
           method: 'POST',
           body: formData
         });
+    
         if (!response.ok) {
           throw new Error(`Server error: ${response.status}`);
         }
+    
         const data = await response.json();
         document.getElementById('answer').innerText = data.answer || 'No answer received.';
       } catch (error) {
         document.getElementById('answer').innerText = `Error: ${error.message}`;
       }
     });
-    </script>
     
+    
+  </script>
 </body>
 </html>
-

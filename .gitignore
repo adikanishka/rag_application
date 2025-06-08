@@ -1,12 +1,14 @@
 # Ignore environment variables
 .env
 venv/.env  # Only needed if you use nested envs
+.env.backup
 
 # Ignore virtual environments
 venv/
 
 # Ignore large or specific files
-documents/sample.pdf
+documents/
+
 
 # Ignore all CSV data files
 *.csv
@@ -25,3 +27,4 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+

@@ -60,15 +60,23 @@ async def ask_question(
     use_custom_bool = parse_bool(use_custom)
     custom_path = None
 
+    # If user wants to use custom PDF, validate and save it
     if use_custom_bool:
         if not file:
             raise HTTPException(status_code=400, detail="use_custom is True but no file uploaded.")
         custom_path = os.path.join(UPLOAD_DIR, file.filename)
+        # Save uploaded file to disk
         with open(custom_path, "wb") as f:
             f.write(await file.read())
+    else:
+        # If not using custom PDF, make sure no file is processed
+        custom_path = None
 
+    # Call your main function to get answer based on question and doc source
     answer = get_answer(question, use_custom=use_custom_bool, custom_path=custom_path)
+    
     return JSONResponse(content={"answer": answer})
+
 
 
 
